@@ -1,0 +1,18 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.env*
+
+*.tsbuildinfo
+
+# Local design runs, user screenshots, career working copies and test evidence
+.scratch/
+.impeccable/
+design-reference/
+evidence/
+.DS_Store
+
+# One-off local QA helpers are retained locally; tests/ contains the maintained suite.
+/scripts/*
+!/scripts/icons.mjs
