@@ -90,6 +90,9 @@ test("check-in and settings persist; grounding is step by step", async ({
   ).toBeVisible();
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   await page.getByLabel("Theme").selectOption("dark");
+  await expect(
+    page.getByText("Preference saved.", { exact: true }),
+  ).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   await expect(page.getByLabel("Theme")).toHaveValue("dark");

@@ -4,9 +4,9 @@ export default defineConfig({
   fullyParallel: false,
   use: { baseURL: "http://127.0.0.1:4173", headless: true },
   webServer: {
-    command: "npm run dev -- --port 4173",
+    command: "npm run preview -- --port 4173",
     url: "http://127.0.0.1:4173",
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
   },
   projects: [{ name: "chromium", use: { browserName: "chromium" } }],
 });

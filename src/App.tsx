@@ -38,8 +38,26 @@ function route(): Page {
   return pages.some((p) => p.id === id) ? (id as Page) : "next";
 }
 export default function App() {
-  const { data, loaded, error, notice, setNotice, update, restore, canUndo } =
-    useData();
+  const {
+    data,
+    loaded,
+    saving,
+    error,
+    notice,
+    setNotice,
+    update,
+    restore,
+    canUndo,
+  } = useData();
+  useEffect(() => {
+    if (!saving) return;
+    const protectPendingSave = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", protectPendingSave);
+    return () => window.removeEventListener("beforeunload", protectPendingSave);
+  }, [saving]);
   const [draftRevision, setDraftRevision] = useState(0);
   const [page, setPage] = useState<Page>(route);
   const [energy, setEnergy] = useState<Effort>("low");
@@ -418,7 +436,7 @@ export default function App() {
                 An app update is ready. Reload when you’re ready; this resets
                 the timer.
               </p>
-              <button onClick={() => void updateServiceWorker(true)}>
+              <button disabled={saving} onClick={() => void updateServiceWorker(true)}>
                 Reload app
               </button>
             </div>
